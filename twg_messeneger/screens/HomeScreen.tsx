@@ -1,28 +1,31 @@
-import * as React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Button from '../components/Button';
+import React from 'react';
+import { View, Text, FlatList } from 'react-native';
+import { useQuery } from '@apollo/client';
+import { GET_USERS_ROOMS } from '../graphql/queries';
 
-interface HomeScreenProps {
-  navigation: any; // Tutaj powinien być właściwy typ nawigacji
-}
+const Home: React.FC = () => {
+  const { loading, error, data } = useQuery(GET_USERS_ROOMS);
 
-const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => (
-  <View style={styles.container}>
-    <Text style={styles.text}>Home Screen</Text>
-    <Button title="Go to Details" onPress={() => navigation.navigate('Details')} />
-  </View>
-);
+  if (loading) return <Text>Loading...</Text>;
+  if (error) return <Text>Error: {error.message}</Text>;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    fontSize: 20,
-    marginBottom: 20,
-  },
-});
+  const user = data.usersRooms.user;
+  const rooms = data.usersRooms.rooms;
 
-export default HomeScreen;
+  return (
+    <View>
+      <Text>User Information:</Text>
+      <Text>Name: {user.firstName} {user.lastName}</Text>
+      <Text>Email: {user.email}</Text>
+
+      <Text>Rooms:</Text>
+      <FlatList
+        data={rooms}
+        keyExtractor={(room) => room.id}
+        renderItem={({ item }) => <Text>{item.name}</Text>}
+      />
+    </View>
+  );
+};
+
+export default Home;
