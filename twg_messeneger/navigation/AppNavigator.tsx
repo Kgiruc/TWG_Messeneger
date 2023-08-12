@@ -1,23 +1,45 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from '../screens/HomeScreen';
-import DetailsScreen from '../screens/DetailsScreen';
 import { ApolloProvider } from '@apollo/client';
 import client from '../graphql/apolloClient';
+import RoomsScreen from '../screens/RoomsScreen';
+import DetailsScreen from '../screens/DetailsScreen';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 const Stack = createStackNavigator();
 
+const AppNavigator: React.FC = () => {
+  const renderHeaderRight = () => (
+    <View style={{ flexDirection: 'row' }}>
+      <TouchableOpacity onPress={() => alert('Button 1 Pressed')}>
+        <Text style={{ fontSize: 16, color: 'blue', marginRight: 10 }}>Button 1</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => alert('Button 2 Pressed')}>
+        <Text style={{ fontSize: 16, color: 'blue' }}>Button 2</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
-const AppNavigator: React.FC = () => (
-  <ApolloProvider client={client}>
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  </ApolloProvider>
-);
+  return (
+    <ApolloProvider client={client}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Rooms"
+            component={RoomsScreen}
+            options={{
+              headerRight: () => renderHeaderRight(),
+            }}
+          />
+          <Stack.Screen
+            name="Details"
+            component={DetailsScreen as React.ComponentType}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ApolloProvider>
+  );
+};
 
 export default AppNavigator;
