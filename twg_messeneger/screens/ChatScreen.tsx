@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
-import { useQuery } from '@apollo/client';
-import { GET_MESSAGES } from '../graphql/queries';
+import { useMutation, useQuery } from '@apollo/client';
+import { GET_MESSAGES, SEND_MESSAGE } from '../graphql/queries';
 
 type ChatProps = {
   route: { params: { roomId: string, userName: string } };
@@ -11,9 +11,11 @@ type ChatProps = {
 function ChatScreen({ route }: ChatProps) {
   const roomId = route.params.roomId;
   const [messages, setMessages] = useState([]);
-  const { loading, error, data } = useQuery(GET_MESSAGES, {
+  const { loading, error, data, refetch } = useQuery(GET_MESSAGES, {
     variables: { roomId },
   });
+
+  const [sendMessage] = useMutation(SEND_MESSAGE);
 
   useEffect(() => {
     if (!loading && data) {
@@ -31,9 +33,20 @@ function ChatScreen({ route }: ChatProps) {
     }
   }, [loading, data]);
 
-  const onSend = useCallback((newMessages = []) => {
-    // Implement sending logic here
-  }, []);
+  const onSend = useCallback(async (newMessages = []) => {
+    const messageText = newMessages[0].text;
+    try {
+      await sendMessage({
+        variables: {
+          roomId,
+          body: messageText,
+        },
+      });
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+    refetch()
+  }, [sendMessage, roomId, refetch]);
 
   if (loading) {
     return <Text>Loading...</Text>;
