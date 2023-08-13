@@ -15,6 +15,7 @@ function ChatScreen({ route }: ChatProps) {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const { loading, error, data, refetch } = useQuery(GET_MESSAGES, {
     variables: { roomId },
+    pollInterval: 1000,
   });
 
   const [sendMessage] = useMutation(SEND_MESSAGE);

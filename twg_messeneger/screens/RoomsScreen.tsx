@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { useQuery } from '@apollo/client';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
 import { GET_USERS_ROOMS } from '../graphql/queries';
 import LastMessage from '../components/LastMessege';
 
@@ -15,7 +14,9 @@ type RoomScreenProps = {
 };
 
 const RoomsScreen: React.FC<RoomScreenProps> = ({ navigation }) => {
-  const { loading, error, data } = useQuery(GET_USERS_ROOMS);
+  const { loading, error, data } = useQuery(GET_USERS_ROOMS, {
+    pollInterval: 1000,
+  });
 
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>Error: {error.message}</Text>;
