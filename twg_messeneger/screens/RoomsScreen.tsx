@@ -4,9 +4,10 @@ import { useQuery } from '@apollo/client';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { GET_USERS_ROOMS } from '../graphql/queries';
+import LastMessage from '../components/LastMessege';
 
 type RootStackParamList = {
-  Details: { roomId: string } | undefined;
+  Chat: { roomId: string, userName: string };
 };
 
 
@@ -28,10 +29,11 @@ const RoomsScreen: React.FC = () => {
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate('Details', {roomId: item.id,})
+              navigation.navigate('Chat', {roomId: item.id, userName: item.name})
             }
           >
             <Text>{item.name}</Text>
+            <LastMessage roomId={item.id}/>
           </TouchableOpacity>
         )}
       />
