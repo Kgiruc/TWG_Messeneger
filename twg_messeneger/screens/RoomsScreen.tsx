@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { GET_USERS_ROOMS } from '../graphql/queries';
 import LastMessage from '../components/LastMessege';
+import Profile from '../assets/profile.svg';
 
 type RootStackParamList = {
   Chat: { roomId: string, userName: string, userId: string };
@@ -37,7 +38,8 @@ const RoomsScreen: React.FC<RoomScreenProps> = ({ navigation }) => {
                 userId: data.usersRooms.user.id,
               })
             }
-          >
+          > 
+            <Profile />
             <Text>{item.name}</Text>
             <LastMessage roomId={item.id}/>
           </TouchableOpacity>
