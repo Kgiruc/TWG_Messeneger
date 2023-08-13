@@ -5,8 +5,10 @@ import { ApolloProvider } from '@apollo/client';
 import client from '../graphql/apolloClient';
 import RoomsScreen from '../screens/RoomsScreen';
 import ChatScreen from '../screens/ChatScreen';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { RootStackParamList } from '../types/RootStackParamList';
+import Rooms from '../assets/rooms.svg';
+import Search from '../assets/search.svg';
 
 const Stack = createStackNavigator();
 
@@ -15,10 +17,10 @@ const AppNavigator: React.FC = () => {
   const renderHeaderRight = () => (
     <View style={{ flexDirection: 'row' }}>
       <TouchableOpacity onPress={() => alert('Button 1 Pressed')}>
-        <Text style={{ fontSize: 16, color: 'blue', marginRight: 10 }}>Button 1</Text>
+        <Rooms />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => alert('Button 2 Pressed')}>
-        <Text style={{ fontSize: 16, color: 'blue' }}>Button 2</Text>
+        <Search />
       </TouchableOpacity>
     </View>
   );
@@ -39,7 +41,10 @@ const AppNavigator: React.FC = () => {
             component={ChatScreen as React.ComponentType}
             options={({ route }) => {
               const userName = (route.params as RootStackParamList['Chat'])?.userName || '';
-              return { title: userName };
+              return {
+                headerRight: () => renderHeaderRight(),
+                 title: userName
+               };
             }}
           />
         </Stack.Navigator>
