@@ -7,13 +7,14 @@ import { GET_USERS_ROOMS } from '../graphql/queries';
 import LastMessage from '../components/LastMessege';
 
 type RootStackParamList = {
-  Chat: { roomId: string, userName: string };
+  Chat: { roomId: string, userName: string, userId: string };
 };
 
+type RoomScreenProps = {
+  navigation: StackNavigationProp<RootStackParamList, "Chat">;
+};
 
-const RoomsScreen: React.FC = () => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-
+const RoomsScreen: React.FC<RoomScreenProps> = ({ navigation }) => {
   const { loading, error, data } = useQuery(GET_USERS_ROOMS);
 
   if (loading) return <Text>Loading...</Text>;
@@ -29,7 +30,11 @@ const RoomsScreen: React.FC = () => {
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate('Chat', {roomId: item.id, userName: item.name})
+              navigation.navigate('Chat', {
+                roomId: item.id, 
+                userName: item.name,
+                userId: data.usersRooms.user.id,
+              })
             }
           >
             <Text>{item.name}</Text>

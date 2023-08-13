@@ -6,10 +6,11 @@ import client from '../graphql/apolloClient';
 import RoomsScreen from '../screens/RoomsScreen';
 import ChatScreen from '../screens/ChatScreen';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { RootStackParamList } from '../types/RootStackParamList';
 
 const Stack = createStackNavigator();
 
-const AppNavigator: React.FC = () => { 
+const AppNavigator: React.FC = () => {
 
   const renderHeaderRight = () => (
     <View style={{ flexDirection: 'row' }}>
@@ -36,7 +37,10 @@ const AppNavigator: React.FC = () => {
           <Stack.Screen
             name="Chat"
             component={ChatScreen as React.ComponentType}
-            options={({ route }) => ({ title: route.params?.userName || 'Details' })}
+            options={({ route }) => {
+              const userName = (route.params as RootStackParamList['Chat'])?.userName || '';
+              return { title: userName };
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>

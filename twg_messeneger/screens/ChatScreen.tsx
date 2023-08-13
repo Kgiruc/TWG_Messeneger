@@ -1,16 +1,18 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { View, Text } from 'react-native';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, IMessage } from 'react-native-gifted-chat';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_MESSAGES, SEND_MESSAGE } from '../graphql/queries';
+import { Message } from '../types/Message';
 
 type ChatProps = {
-  route: { params: { roomId: string, userName: string } };
+  route: { params: { roomId: string, userName: string, userId: string } };
 };
 
 function ChatScreen({ route }: ChatProps) {
   const roomId = route.params.roomId;
-  const [messages, setMessages] = useState([]);
+  const userId = route.params.userId;
+  const [messages, setMessages] = useState<IMessage[]>([]);
   const { loading, error, data, refetch } = useQuery(GET_MESSAGES, {
     variables: { roomId },
   });
@@ -19,21 +21,20 @@ function ChatScreen({ route }: ChatProps) {
 
   useEffect(() => {
     if (!loading && data) {
-      const formattedMessages = data.room.messages.map(message => ({
+      const formattedMessages: IMessage[] = data.room.messages.map((message: Message ) => ({
         _id: message.id,
         text: message.body,
         createdAt: new Date(message.insertedAt),
         user: {
           _id: message.user.id,
           name: `${message.user.firstName} ${message.user.lastName}`,
-          avatar: 'https://placeimg.com/140/140/any',
         },
       }));
       setMessages(formattedMessages);
     }
   }, [loading, data]);
 
-  const onSend = useCallback(async (newMessages = []) => {
+  const onSend = useCallback(async (newMessages: IMessage[] = []) => {
     const messageText = newMessages[0].text;
     try {
       await sendMessage({
@@ -45,7 +46,7 @@ function ChatScreen({ route }: ChatProps) {
     } catch (error) {
       console.error('Error sending message:', error);
     }
-    refetch()
+    refetch();
   }, [sendMessage, roomId, refetch]);
 
   if (loading) {
@@ -62,7 +63,7 @@ function ChatScreen({ route }: ChatProps) {
         messages={messages}
         onSend={newMessages => onSend(newMessages)}
         user={{
-          _id: 1,
+          _id: userId,
         }}
       />
     </View>
