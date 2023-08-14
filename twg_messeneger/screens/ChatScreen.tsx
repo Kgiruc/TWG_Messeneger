@@ -122,7 +122,6 @@ function ChatScreen({ route }: ChatProps) {
           borderTopLeftRadius: 12,
           borderTopRightRadius: 12,
           height: 73,
-
           alignItems: 'center',
           justifyContent: 'center'
         }}

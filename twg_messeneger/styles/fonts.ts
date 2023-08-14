@@ -42,6 +42,10 @@ export const fonts = {
     fontSize: 15,
     lineHeight: 20,
   },
+  title_chat: {
+    fontFamily: 'Poppins-Bold',
+    fontSize: 14,
+  },
   caption: {
     fontFamily: 'Poppins-Regular',
     fontSize: 10,

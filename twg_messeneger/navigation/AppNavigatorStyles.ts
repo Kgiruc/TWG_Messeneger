@@ -5,6 +5,8 @@ import { fonts } from '../styles/fonts';
 export const navigationStyles = StyleSheet.create({
   headerRightContainer: {
     flexDirection: 'row',
+    gap: 8,
+    paddingRight: 16
   },
   headerStyles: {
     backgroundColor: palette.blue.main
@@ -14,9 +16,3 @@ export const navigationStyles = StyleSheet.create({
     color: palette.plum.main
   }
 });
-
-export type NavigationStylesType = {
-    headerRightContainer: ViewStyle;
-    headerStyles: ViewStyle;
-    headerTitle: TextStyle;
-  };
