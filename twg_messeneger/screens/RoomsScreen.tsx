@@ -5,6 +5,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { GET_USERS_ROOMS } from '../graphql/queries';
 import LastMessage from '../components/LastMessege';
 import Profile from '../assets/profile.svg';
+import { StyleSheet } from 'react-native';
+import { roomsStyles } from './roomsStyles';
 
 type RootStackParamList = {
   Chat: { roomId: string, userName: string, userId: string };
@@ -25,12 +27,13 @@ const RoomsScreen: React.FC<RoomScreenProps> = ({ navigation }) => {
   const rooms = data.usersRooms.rooms;
 
   return (
-    <View>
+    <View style={roomsStyles.container}>
       <FlatList
         data={rooms}
         keyExtractor={(room) => room.id}
         renderItem={({ item }) => (
           <TouchableOpacity
+            style={roomsStyles.roomContainer}
             onPress={() =>
               navigation.navigate('Chat', {
                 roomId: item.id, 
@@ -39,9 +42,15 @@ const RoomsScreen: React.FC<RoomScreenProps> = ({ navigation }) => {
               })
             }
           > 
-            <Profile />
-            <Text>{item.name}</Text>
-            <LastMessage roomId={item.id}/>
+            <View style={roomsStyles.roomItem}>
+              <View style={roomsStyles.profileContainer}>
+                <Profile style={roomsStyles.profileIcon} />
+              </View>
+              <View style={roomsStyles.roomInfo}>
+                <Text style={roomsStyles.roomName}>{item.name}</Text>
+                <LastMessage roomId={item.id}/>
+              </View>
+            </View>
           </TouchableOpacity>
         )}
       />

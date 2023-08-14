@@ -9,13 +9,14 @@ import { View, TouchableOpacity } from 'react-native';
 import { RootStackParamList } from '../types/RootStackParamList';
 import Rooms from '../assets/rooms.svg';
 import Search from '../assets/search.svg';
+import { navigationStyles } from './AppNavigatorStyles';
 
 const Stack = createStackNavigator();
 
 const AppNavigator: React.FC = () => {
 
   const renderHeaderRight = () => (
-    <View style={{ flexDirection: 'row' }}>
+    <View style={navigationStyles.headerRightContainer}>
       <TouchableOpacity onPress={() => alert('Button 1 Pressed')}>
         <Rooms />
       </TouchableOpacity>
@@ -34,6 +35,8 @@ const AppNavigator: React.FC = () => {
             component={RoomsScreen}
             options={{
               headerRight: () => renderHeaderRight(),
+              ...navigationStyles.headerStyles,
+              ...navigationStyles.headerTitle,
             }}
           />
           <Stack.Screen
