@@ -1,24 +1,13 @@
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
-import { useQuery } from '@apollo/client';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { GET_USERS_ROOMS } from '../graphql/queries';
 import LastMessage from '../components/LastMessage';
 import Profile from '../assets/profile.svg';
 import { roomsStyles } from './styles/roomsStyles';
-
-type RootStackParamList = {
-  Chat: { roomId: string, userName: string, userId: string };
-};
-
-type RoomScreenProps = {
-  navigation: StackNavigationProp<RootStackParamList, "Chat">;
-};
+import { RoomScreenProps } from '../types/RoomsType';
+import { useRooms } from '../hooks/useRooms';
 
 const RoomsScreen: React.FC<RoomScreenProps> = ({ navigation }) => {
-  const { loading, error, data } = useQuery(GET_USERS_ROOMS, {
-    pollInterval: 1000,
-  });
+  const { loading, error, data } = useRooms();
 
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>Error: {error.message}</Text>;

@@ -9,7 +9,7 @@ const loadFonts = async () => {
   });
 };
 
-loadFonts();
+export {loadFonts};
 
 export const fonts = {
   heading1: {
@@ -43,7 +43,7 @@ export const fonts = {
     lineHeight: 20,
   },
   title_chat: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: 'Poppins-Medium',
     fontSize: 14,
   },
   caption: {

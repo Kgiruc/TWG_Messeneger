@@ -1,18 +1,28 @@
-import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 import palette from '../styles/colors';
 import { fonts } from '../styles/fonts';
 
 export const navigationStyles = StyleSheet.create({
-  headerRightContainer: {
-    flexDirection: 'row',
-    gap: 8,
-    paddingRight: 16
-  },
-  headerStyles: {
-    backgroundColor: palette.blue.main
+  header: {
+    backgroundColor: palette.blue.light_md,
+    height: 100,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
   },
   headerTitle: {
-    ...fonts.heading1,
-    color: palette.plum.main
-  }
+    ...fonts.heading2,
+    color: palette.plum.main,
+  },
+  chatHeaderContainer: {
+    flexDirection: 'row',
+    marginLeft: -20,
+    gap: 12,
+    maxWidth: 200,
+  },
+  chatHeaderText: {
+    ...fonts.title_chat,
+    color: palette.plum.main,
+  },
 });
+
+export default navigationStyles;

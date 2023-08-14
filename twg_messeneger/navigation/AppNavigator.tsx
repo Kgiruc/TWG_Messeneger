@@ -1,46 +1,30 @@
-import {Text} from 'react-native';
+import React from 'react';
+import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ApolloProvider } from '@apollo/client';
 import client from '../graphql/apolloClient';
 import RoomsScreen from '../screens/RoomsScreen';
 import ChatScreen from '../screens/ChatScreen';
-import { View, TouchableOpacity } from 'react-native';
 import { RootStackParamList } from '../types/RootStackParamList';
 import Rooms from '../assets/rooms.svg';
 import Search from '../assets/search.svg';
-import { navigationStyles } from './AppNavigatorStyles';
-import palette from '../styles/colors';
-import { fonts } from '../styles/fonts';
-import Profile from '../assets/profile.svg'
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import Phone from '../assets/phone.svg';
+import Video from '../assets/videocall.svg';
+import Profile from '../assets/profile.svg';
+import CarterLeft from '../assets/carter-left.svg';
+import RenderHeaderRight from '../components/RenderHeaderRight';
+import navigationStyles from './AppNavigatorStyles';
 
 const Stack = createStackNavigator();
 
 const AppNavigator: React.FC = () => {
-
-  const renderHeaderRight = () => (
-    <View style={navigationStyles.headerRightContainer}>
-      <TouchableOpacity  onPress={() => alert('Button 1 Pressed')}>
-        <Search />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => alert('Button 2 Pressed')}>
-        <Rooms />
-      </TouchableOpacity>
-    </View>
-  );
-
   return (
     <ApolloProvider client={client}>
       <NavigationContainer>
         <Stack.Navigator
            screenOptions={{
-            headerStyle: {
-              backgroundColor: palette.blue.light_md,
-              height: 100,
-              borderBottomLeftRadius: 24,
-              borderBottomRightRadius: 24,
-            },
+            headerStyle: navigationStyles.header,
           }}
         >
           <Stack.Screen
@@ -48,11 +32,8 @@ const AppNavigator: React.FC = () => {
             component={RoomsScreen}
             options={{
               title: 'Rooms',
-              headerTitleStyle: {
-                ...fonts.heading2,
-                color: palette.plum.main,
-              },
-              headerRight: () => renderHeaderRight(),
+              headerTitleStyle: navigationStyles.headerTitle, 
+              headerRight: () => <RenderHeaderRight logo1={<Rooms />} logo2={<Search />} />
             }}
           />
           <Stack.Screen
@@ -62,20 +43,15 @@ const AppNavigator: React.FC = () => {
               const userName = (route.params as RootStackParamList['Chat'])?.userName || '';
               return {
                 headerTitle: () => (
-                  <View style={{ 
-                    flexDirection: 'row', 
-                    alignItems: 'center', 
-                    gap: 12,
-                    maxWidth: 200 
-                    }}>
+                  <View style={navigationStyles.chatHeaderContainer}> 
                     <Profile width={44} height={44}/>
-                    <Text numberOfLines={1} style={{
-                      ...fonts.title_chat,
-                      color: palette.plum.main,
-                    }}>{userName}</Text>
+                    <Text numberOfLines={1} style={navigationStyles.chatHeaderText}>
+                      {userName}
+                    </Text>
                   </View>
                 ),
-                headerRight: () => renderHeaderRight(),
+                headerRight: () => <RenderHeaderRight logo1={<Phone />} logo2={<Video />} />,
+                headerBackImage: () => (<CarterLeft />),
               };
             }}
           />
