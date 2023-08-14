@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, Text } from 'react-native';
-import { GiftedChat, IMessage } from 'react-native-gifted-chat';
+import { View, Text, KeyboardAvoidingView } from 'react-native';
+import { Bubble, GiftedChat, IMessage, InputToolbar, Send } from 'react-native-gifted-chat';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_MESSAGES, SEND_MESSAGE } from '../graphql/queries';
 import { Message } from '../types/Message';
+import { chatStyles } from './styles/chatStyles';
 
 type ChatProps = {
   route: { params: { roomId: string, userName: string, userId: string } };
@@ -60,15 +61,40 @@ function ChatScreen({ route }: ChatProps) {
 
   return (
     <View style={{ flex: 1 }}>
-      <GiftedChat
-        messages={messages}
-        onSend={newMessages => onSend(newMessages)}
-        user={{
-          _id: userId,
-        }}
-      />
+        <GiftedChat
+          messages={messages}
+          onSend={newMessages => onSend(newMessages)}
+          user={{
+            _id: userId,
+          }}
+          renderInputToolbar={(props: any) => (
+            <InputToolbar
+              {...props}
+              containerStyle={chatStyles.inputToolbar}
+              primaryStyle={{ alignItems: 'center' }}
+            />
+          )}
+          renderSend={(props: any) => (
+            <Send {...props} containerStyle={chatStyles.sendButton}>
+              <Text style={chatStyles.sendButtonText}>Send</Text>
+            </Send>
+          )}
+          renderBubble={(props: any) => (
+            <Bubble
+              {...props}
+              wrapperStyle={{
+                left: { backgroundColor: 'white' },
+                right: { backgroundColor: 'purple' },
+              }}
+              textStyle={{
+                left: { color: 'black' },
+                right: { color: 'white' },
+              }}
+            />
+          )}
+        />
     </View>
   );
-}
+};
 
 export default ChatScreen;

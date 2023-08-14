@@ -3,10 +3,9 @@ import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { useQuery } from '@apollo/client';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { GET_USERS_ROOMS } from '../graphql/queries';
-import LastMessage from '../components/LastMessege';
+import LastMessage from '../components/LastMessage';
 import Profile from '../assets/profile.svg';
-import { StyleSheet } from 'react-native';
-import { roomsStyles } from './roomsStyles';
+import { roomsStyles } from './styles/roomsStyles';
 
 type RootStackParamList = {
   Chat: { roomId: string, userName: string, userId: string };
@@ -47,7 +46,12 @@ const RoomsScreen: React.FC<RoomScreenProps> = ({ navigation }) => {
                 <Profile style={roomsStyles.profileIcon} />
               </View>
               <View style={roomsStyles.roomInfo}>
-                <Text style={roomsStyles.roomName}>{item.name}</Text>
+                <Text 
+                  style={roomsStyles.roomName} 
+                  numberOfLines={1}
+                >
+                  {item.name}
+                </Text>
                 <LastMessage roomId={item.id}/>
               </View>
             </View>

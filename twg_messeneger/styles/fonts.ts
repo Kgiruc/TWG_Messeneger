@@ -40,22 +40,22 @@ export const fonts = {
   title_input: {
     fontFamily: 'Poppins-Medium',
     fontSize: 15,
-    lineHight: 20,
+    lineHeight: 20,
   },
   caption: {
     fontFamily: 'Poppins-Regular',
     fontSize: 10,
-    lineHight: 10,
+    lineHeight: 10,
   },
   bodyText: {
     fontSize: 14,
   },
   captionBold: {
     fontSize: 12,
-    lineHight: 16,
+    lineHeight: 16,
   },
   specialText: {
     fontSize: 12,
-    lineHight:16,
+    lineHeight: 16,
   },
 };

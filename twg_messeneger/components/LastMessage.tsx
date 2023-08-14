@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { GET_MESSAGES } from "../graphql/queries";
 import { View, Text } from "react-native";
+import { lastMessageStyles } from "./styles/lastMessageStyles";
 
 const LastMessage: React.FC<{ roomId: string }> = ({ roomId }) => {
     const { loading: messagesLoading, error: messagesError, data: messagesData } = useQuery(GET_MESSAGES, {
@@ -15,7 +16,9 @@ const LastMessage: React.FC<{ roomId: string }> = ({ roomId }) => {
   
     return (
       <View>
-        <Text>{lastMessage ? lastMessage.body : 'No messages'}</Text>
+        <Text style={lastMessageStyles.message} numberOfLines={1}>
+          {lastMessage ? lastMessage.body : 'No messages'}
+        </Text>
       </View>
     );
   };

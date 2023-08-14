@@ -1,38 +1,37 @@
 import { StyleSheet } from "react-native";
+import { fonts } from "../../styles/fonts";
+import palette from "../../styles/colors";
 
 export const roomsStyles = StyleSheet.create({
     container: {
       flex: 1,
-      paddingHorizontal: 16,
-      paddingTop: 16,
+      paddingTop: 36,
+      backgroundColor: palette.blue.light,
     },
     roomContainer: {
-      marginBottom: 8,
+      marginBottom: 12,
     },
     roomItem: {
       flexDirection: 'row',
       alignItems: 'center',
       padding: 16,
-      backgroundColor: '#FFFFFF',
-      borderRadius: 8,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
+      width: '100%',
+      maxHeight: 89,
+      backgroundColor: palette.white.main,
+      borderRadius: 12,
     },
     profileContainer: {
       marginRight: 16,
     },
     profileIcon: {
-      width: 40,
-      height: 40,
+      width: 64,
+      height: 64,
     },
     roomInfo: {
       flex: 1,
     },
     roomName: {
-      fontSize: 16,
-      fontWeight: 'bold',
+      ...fonts.title_input,
+      marginBottom: 4,
     },
   });
